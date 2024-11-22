@@ -12,13 +12,13 @@ router.get('/', (req, res) => {
     try {
         if (category) {
             const events = getEventsByCategory(category);
-            return res.json({ success: true, data: events, count: events.length });
+            return res.json({ id:null,events:events });
         }
 
         const events = getAllEvents();
-        res.json({ success: true, data: events, count: events.length });
+        res.json({ events });
     } catch (err) {
-        res.status(500).json({ success: false, error: 'Internal server error' });
+        res.status(500).json({ error: 'Internal server error' });
     }
 });
 
@@ -26,10 +26,10 @@ router.get('/:id', (req, res) => {
     const event = getEventById(req.params.id);
 
     if (!event) {
-        return res.status(404).json({ success: false, error: 'Event not found' });
+        return res.status(404).json({ error: 'Event not found' });
     }
 
-    res.json({ success: true, data: event });
+    res.json({ events: event });
 });
 
 module.exports = router;
