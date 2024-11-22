@@ -12,11 +12,14 @@ const getEventById = (id) => {
     const events = getAllEvents();
     return events.find(event => event.id === id);
 };
-
 const getEventsByCategory = (category) => {
     const events = getAllEvents();
+    if (category.toLowerCase() === 'all') {
+        return events;
+    }
     return events.filter(event => event.category.toLowerCase() === category.toLowerCase());
 };
+
 
 module.exports = {
     getAllEvents,
