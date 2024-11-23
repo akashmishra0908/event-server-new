@@ -12,17 +12,25 @@ const getEventById = (id) => {
     const events = getAllEvents();
     return events.find(event => event.id === id);
 };
-const getEventsByCategory = (category) => {
+const getEventsByCategories = (categories) => {
     const events = getAllEvents();
-    if (category.toLowerCase() === 'all') {
+
+    // If no categories specified or 'all' is included, return all events
+    if (!categories || categories.length === 0 ||
+        categories.some(cat => cat.toLowerCase() === 'all')) {
         return events;
     }
-    return events.filter(event => event.category.toLowerCase() === category.toLowerCase());
-};
 
+    // Filter events that match any of the specified categories
+    return events.filter(event =>
+        categories.some(category =>
+            event.category.toLowerCase() === category.toLowerCase()
+        )
+    );
+};
 
 module.exports = {
     getAllEvents,
     getEventById,
-    getEventsByCategory,
+    getEventsByCategories,
 };

@@ -3,21 +3,25 @@ const router = express.Router();
 const {
     getAllEvents,
     getEventById,
-    getEventsByCategory,
+    getEventsByCategories,
 } = require('../models/eventModel');
 
 router.get('/', (req, res) => {
     const { category } = req.query;
 
     try {
+        let categories;
         if (category) {
-            const events = getEventsByCategory(category);
-            return res.json({ id:null,events:events });
+            // Handle both string and array formats
+            categories = Array.isArray(category) ? category : [category];
+            const events = getEventsByCategories(categories);
+            return res.json({ id: null, events: events });
         }
 
         const events = getAllEvents();
         res.json({ events });
     } catch (err) {
+        console.error('Error handling events request:', err);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
